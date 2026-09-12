@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Animal Recognizer</title>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<div id="emoji-bg"></div>
+
+<div class="wrap">
+  <h1><span class="wave">🐾</span> Animal Recognizer</h1>
+  <div class="sub">Upload a photo, video, or sound — or train the model on your own dataset.</div>
+
+  <div class="tabs">
+    <div class="tab active" id="tab-img">🖼️ Image</div>
+    <div class="tab" id="tab-vid">🎬 Video</div>
+    <div class="tab" id="tab-snd">🔊 Sound</div>
+    <div class="tab" id="tab-train">🧠 Train</div>
+  </div>
+
+  <!-- IMAGE PANEL -->
+  <div class="panel active" id="panel-img">
+    <div class="dropzone" id="imgDrop">
+      <input type="file" id="imgInput" accept="image/*"/>
+      <span class="dropzone-icon">📷</span>
+      <span class="dropzone-text">Click or drag a photo here</span>
+    </div>
+    <img id="preview" alt="Uploaded animal preview"/>
+    <div class="status" id="imgStatus"><span class="spinner"></span> Connecting to backend…</div>
+    <div id="imgResults"></div>
+  </div>
+
+  <!-- VIDEO PANEL -->
+  <div class="panel" id="panel-vid">
+    <div class="dropzone" id="vidDrop">
+      <input type="file" id="vidInput" accept="video/*"/>
+      <span class="dropzone-icon">🎬</span>
+      <span class="dropzone-text">Click or drag a video here (a frame will be analyzed)</span>
+    </div>
+    <video id="videoPreview" controls></video>
+    <canvas id="videoCanvas" style="display:none"></canvas>
+    <div class="status" id="vidStatus">Upload a video to begin.</div>
+    <div id="vidResults"></div>
+  </div>
+
+  <!-- SOUND PANEL -->
+  <div class="panel" id="panel-snd">
+    <div class="dropzone" id="sndDrop">
+      <input type="file" id="sndInput" accept="audio/*"/>
+      <span class="dropzone-icon">🎙️</span>
+      <span class="dropzone-text">Click or drag a sound clip here</span>
+    </div>
+    <audio id="audioPreview" controls></audio>
+    <div class="status" id="sndStatus"><span class="spinner"></span> Loading audio model…</div>
+    <div id="sndResults"></div>
+  </div>
+
+  <!-- TRAIN PANEL -->
+  <div class="panel" id="panel-train">
+    <div class="train-section">
+      <div class="train-hint">
+        Upload a <code>.zip</code> file containing one folder per animal, e.g.:<br/>
+        <code>tiger/</code>, <code>elephant/</code>, <code>panda/</code> ... each with photos inside.<br/>
+        At least 2 classes, ideally 50+ images per class. Training runs on the server.
+      </div>
+      <div class="dropzone" id="trainDrop">
+        <input type="file" id="trainInput" accept=".zip"/>
+        <span class="dropzone-icon">📦</span>
+        <span class="dropzone-text">Click or drag your dataset .zip here</span>
+      </div>
+      <div class="epoch-row">
+        <label for="epochsInput">Epochs:</label>
+        <input type="number" id="epochsInput" value="15" min="1" max="100"/>
+        <button class="btn-primary" id="startTrainBtn">Start Training</button>
+      </div>
+      <div class="status" id="trainStatus"></div>
+      <div class="progress-bg"><div class="progress-fill" id="trainProgressFill"></div></div>
+    </div>
+
+    <!-- Metrics inside train panel -->
+    <div class="metrics-section" id="metricsSection">
+      <h2 class="metrics-title">📊 Model performance</h2>
+      <div class="metrics-grid" id="metricsGrid">
+        <div class="metric-card"><div class="metric-label">Accuracy</div><div class="metric-value" id="m-accuracy">—</div></div>
+        <div class="metric-card"><div class="metric-label">Precision</div><div class="metric-value" id="m-precision">—</div></div>
+        <div class="metric-card"><div class="metric-label">Recall</div><div class="metric-value" id="m-recall">—</div></div>
+        <div class="metric-card"><div class="metric-label">F1-score</div><div class="metric-value" id="m-f1">—</div></div>
+      </div>
+      <div class="status" id="metricsStatus" style="margin-top:10px">No custom model yet — using the general pretrained fallback model.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Custom-trained model when available — otherwise falls back automatically to<br/>
+    Google's pretrained MobileNet (ImageNet) so ANY animal can still be recognized.
+  </div>
+</div>
+
+<script src="js/emoji-background.js"></script>
+<script src="js/model-loader.js"></script>
+<script src="js/image-classifier.js"></script>
+<script src="js/video-classifier.js"></script>
+<script src="js/audio-classifier.js"></script>
+<script src="js/train-panel.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
